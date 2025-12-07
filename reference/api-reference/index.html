@@ -1,0 +1,216 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+      <link rel="shortcut icon" href="../../img/favicon.ico" />
+    <title>API Reference - SwarmSync Documentation</title>
+    <link rel="stylesheet" href="../../css/theme.css" />
+    <link rel="stylesheet" href="../../css/theme_extra.css" />
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/styles/github.min.css" />
+    
+      <script>
+        // Current page data
+        var mkdocs_page_name = "API Reference";
+        var mkdocs_page_input_path = "reference\\api-reference.md";
+        var mkdocs_page_url = null;
+      </script>
+    
+    <!--[if lt IE 9]>
+      <script src="../../js/html5shiv.min.js"></script>
+    <![endif]-->
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/highlight.min.js"></script>
+      <script>hljs.highlightAll();</script> 
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side stickynav">
+    <div class="wy-side-scroll">
+      <div class="wy-side-nav-search">
+          <a href="../.." class="icon icon-home"> SwarmSync Documentation
+        </a><div role="search">
+  <form id ="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+      <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" title="Type search term here" />
+  </form>
+</div>
+      </div>
+
+      <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="../..">Home</a>
+                </li>
+              </ul>
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="../../get-started/quick-start-manage-dji-drones/">Getting Started</a>
+                </li>
+              </ul>
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="../../integrations/dji-platform-integrations/">Integrations</a>
+                </li>
+              </ul>
+              <ul class="current">
+                <li class="toctree-l1 current"><a class="reference internal current" href="#">API Reference</a>
+    <ul class="current">
+    </ul>
+                </li>
+              </ul>
+      </div>
+    </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+      <nav class="wy-nav-top" role="navigation" aria-label="Mobile navigation menu">
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../..">SwarmSync Documentation</a>
+        
+      </nav>
+      <div class="wy-nav-content">
+        <div class="rst-content"><div role="navigation" aria-label="breadcrumbs navigation">
+  <ul class="wy-breadcrumbs">
+    <li><a href="../.." class="icon icon-home" aria-label="Docs"></a></li>
+      <li class="breadcrumb-item active">API Reference</li>
+    <li class="wy-breadcrumbs-aside">
+    </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+            <div class="section" itemprop="articleBody">
+              
+                <h1 id="onefield-api-reference-v10">OneField API Reference (v1.0)</h1>
+<p>Welcome to the OneField API! This RESTful API allows developers to integrate drone fleet management, mission planning, and real-time control into their own applications.</p>
+<p>Base URL: https://api.onefield.io/v1</p>
+<p>🔐 Authentication
+All requests must include an API key in the header:</p>
+<pre><code class="language-json">Authorization: Bearer YOUR_API_KEY
+</code></pre>
+<p>🚁 Drones
+GET /drones
+Retrieve a list of all connected drones.</p>
+<p>Response:</p>
+<pre><code class="language-json">[
+  {
+    &quot;id&quot;: &quot;drone_001&quot;,
+    &quot;model&quot;: &quot;DJI Mavic 3&quot;,
+    &quot;status&quot;: &quot;idle&quot;,
+    &quot;battery&quot;: 87,
+    &quot;location&quot;: {
+      &quot;lat&quot;: 47.6101,
+      &quot;lng&quot;: -122.2015
+    }
+  }
+]
+````
+
+POST /drones
+Register a new drone to your fleet.
+
+Body:
+```json
+{
+  &quot;serial_number&quot;: &quot;DJI123456789&quot;,
+  &quot;nickname&quot;: &quot;Field Scout 1&quot;
+}
+</code></pre>
+<p>🗺️ Missions
+POST /missions
+Create a new flight mission.</p>
+<p>Body:</p>
+<pre><code class="language-json">{
+  &quot;name&quot;: &quot;Crop Survey July&quot;,
+  &quot;drone_id&quot;: &quot;drone_001&quot;,
+  &quot;waypoints&quot;: [
+    {&quot;lat&quot;: 47.6101, &quot;lng&quot;: -122.2015, &quot;alt&quot;: 50},
+    {&quot;lat&quot;: 47.6110, &quot;lng&quot;: -122.2020, &quot;alt&quot;: 50}
+  ],
+  &quot;actions&quot;: [&quot;take_photo&quot;, &quot;record_video&quot;]
+}
+````
+
+GET /missions/:id
+Get details of a specific mission.
+
+📡 Live Control
+POST /control/override
+Take manual control of a drone.
+
+Body:
+
+```json
+{
+  &quot;drone_id&quot;: &quot;drone_001&quot;,
+  &quot;command&quot;: &quot;return_to_home&quot;
+}
+</code></pre>
+<p>🔄 OTA Updates
+POST /drones/:id/update
+Push a firmware update to a drone.</p>
+<p>Body:</p>
+<pre><code class="language-json">{
+  &quot;version&quot;: &quot;v2.3.1&quot;,
+  &quot;force_restart&quot;: true
+}
+
+</code></pre>
+<p>📊 Telemetry
+GET /drones/:id/telemetry
+Retrieve real-time telemetry data.</p>
+<p>Response:</p>
+<pre><code class="language-json">{
+  &quot;altitude&quot;: 52.3,
+  &quot;speed&quot;: 12.5,
+  &quot;battery&quot;: 76,
+  &quot;gps&quot;: {
+    &quot;lat&quot;: 47.6105,
+    &quot;lng&quot;: -122.2021
+  }
+}
+</code></pre>
+              
+            </div>
+          </div><footer>
+    <div class="rst-footer-buttons" role="navigation" aria-label="Footer Navigation">
+        <a href="../../integrations/dji-platform-integrations/" class="btn btn-neutral float-left" title="Integrations"><span class="icon icon-circle-arrow-left"></span> Previous</a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <!-- Copyright etc -->
+  </div>
+
+  Built with <a href="https://www.mkdocs.org/">MkDocs</a> using a <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>.
+</footer>
+          
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+
+  <div class="rst-versions" role="note" aria-label="Versions">
+  <span class="rst-current-version" data-toggle="rst-current-version">
+    
+    
+      <span><a href="../../integrations/dji-platform-integrations/" style="color: #fcfcfc">&laquo; Previous</a></span>
+    
+    
+  </span>
+</div>
+    <script src="../../js/jquery-3.6.0.min.js"></script>
+    <script>var base_url = "../..";</script>
+    <script src="../../js/theme_extra.js"></script>
+    <script src="../../js/theme.js"></script>
+      <script src="../../search/main.js"></script>
+    <script>
+        jQuery(function () {
+            SphinxRtdTheme.Navigation.enable(true);
+        });
+    </script>
+
+</body>
+</html>
