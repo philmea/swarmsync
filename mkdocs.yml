@@ -4,4 +4,4 @@ nav:
   - Getting Started: get-started/quick-start-manage-dji-drones.md
   - Integrations: integrations/dji-platform-integrations.md
   - API Reference: reference/api-reference.md
-theme: readthedocs
+theme: material
