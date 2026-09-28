@@ -1,0 +1,24 @@
+# Reproofed settings
+#
+# Save this file as .content-studio.yml in the root of your repo, on your
+# default branch (usually main). Every setting is optional - delete any line
+# to use the default shown in its comment.
+
+freshness:
+  # The folder of docs to check. Subfolders are included.
+  # Default: docs/
+  folder: docs/
+
+  # A doc counts as stale when it hasn't been updated for this many days.
+  # Default: 180
+  stale_after_days: 180
+
+  # How often you get a report: daily, weekly, monthly, or off.
+  # Default: weekly
+  schedule: monthly
+
+  # Which day the report arrives.
+  #   monthly: a day of the month from 1 to 28
+  #   weekly:  monday, tuesday, wednesday, thursday, friday, saturday or sunday
+  # Default: 1 for monthly, monday for weekly
+  day: 1
